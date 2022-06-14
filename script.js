@@ -3,7 +3,39 @@ function Matrix(size, twoDArray) {
     let elements = twoDArray
     this.element = (i, j) => elements[i][j]
     this.size = () => n
+    this.determinant = () => {
+        let d = 0
+        let permut1 = []
+        for (let i = 0; i < n; i++) {
+            permut1.push(i + 1)
+        }
+        let permuts = ChildPermutations(0, permut1)
+        
+        for (let permut of permuts) {
+            // the expression inside sum
+        }
+    }
 }
+
+function ChildPermutations(lock, permut) {
+    if (lock == permut.length - 1) {
+        return [permut]
+    }
+    let permuts = []
+    for (let i = 0; i < permut.length - lock; i++) {
+        let newPermut = permut.slice()
+        let tmp = newPermut[lock] + 0
+        newPermut[lock] = newPermut[lock + i]
+        newPermut[lock + i] = tmp
+        let newPermuts = ChildPermutations(lock + 1, newPermut)
+        for (let j = 0; j < newPermuts.length; j++) {
+            permuts.push(newPermuts[j])
+        }
+    }
+    return permuts
+}
+
+console.log(ChildPermutations(0, [1, 2, 3, 4]))
 
 function Ep(...nums) {
     let swaps = 0
