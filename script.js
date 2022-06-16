@@ -13,7 +13,13 @@ function Matrix(size, twoDArray) {
         
         for (let permut of permuts) {
             // the expression inside sum
+            let expression = Ep(permut)
+            for (let i = 0; i < n; i++) {
+                expression *= elements[i][permut[i]-1]
+            }
+            d += expression
         }
+        return d
     }
 }
 
@@ -35,11 +41,10 @@ function ChildPermutations(lock, permut) {
     return permuts
 }
 
-console.log(ChildPermutations(0, [1, 2, 3, 4]))
-
-function Ep(...nums) {
+function Ep(numss) {
+    let nums = numss.slice()
     let swaps = 0
-    for (let i = 0; i < nums.length; i++) {
+    for (let i = 0; i < nums.length - 1; i++) {
         if (nums[i] != i + 1) {
             let swapped = false
             for (let j = i + 1; j < nums.length; j++) {
@@ -47,13 +52,13 @@ function Ep(...nums) {
                     return 0
                 }
                 if (nums[j] == i + 1) {
-                    nums[i], nums[j] = nums[j], nums[i]
+                    [nums[i], nums[j]] = [nums[j], nums[i]]
                     swaps++
                     swapped = true
                 }
             }
             if (!swapped) {
-                console.error(`Can not epsilon: ${nums.map(e => e.toString).join(' ')}`)
+                console.error(`Can not epsilon: ${nums.toString()}`)
                 return NaN
             }
         }
