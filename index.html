@@ -9,6 +9,70 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    
+    <label for="size" id="size-label">
+        Size: <input type="number" name="size" id="size-input">
+    </label>
+    <p>
+        <input type="submit" value="Calculate determinant" id="calculate"><span id="determinant"></span></p>
+    <table class="matrix-grid">
+        
+    </table>
+    <script>
+        let matrixGrid = document.querySelector('.matrix-grid')
+        let sizeInput = document.querySelector('#size-input')
+        let size = 0
+        let matrix = []
+        resize(3)
+        sizeInput.value = 3
+        sizeInput.addEventListener('change', () => resize(sizeInput.value))
+        document.querySelector('#calculate').addEventListener('click', () => {
+            let inputs = document.querySelectorAll('.matrix-grid tr td input')
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    matrix[i][j] = inputs[(i * size) + j].value
+                }
+            }
+            document.querySelector('#determinant').innerHTML = new Matrix(size, matrix).determinant()
+        })
+        function resize(n) {
+            try {
+                n = parseInt(n)
+            } catch {
+                console.log('invalid size')
+                return
+            }
+            let previousMatrix = []
+            let cells = document.querySelectorAll('.matrix-grid tr td input')
+            for (let i = 0; i < size; i++) {
+                previousMatrix.push([])
+                for (let j = 0; j < size; j++) {
+                    previousMatrix[i].push(parseFloat(cells[(i*size) + j].value))
+                }
+            }
+            size = n
+            matrixGrid.innerHTML = ''
+            matrix = []
+            for (let i = 0; i < size; i++) {
+                let newRow = document.createElement('tr')
+                matrixGrid.appendChild(newRow)
+                matrix.push([])
+                for (let j = 0; j < size; j++) {
+                    let newData = document.createElement('td')
+                    let newInput = document.createElement('input')
+                    newInput.setAttribute('type', 'number')
+                    if (i < previousMatrix.length && j < previousMatrix.length) {
+                        newInput.value = previousMatrix[i][j]
+                        matrix[i].push(parseFloat(previousMatrix[i][j]))
+                    } else {
+                        newInput.value = 0
+                        matrix[i].push(0)
+                    }
+                    newData.appendChild(newInput)
+                    newRow.appendChild(newData)
+                }
+            }
+        }
+        
+    </script>
 </body>
 </html>

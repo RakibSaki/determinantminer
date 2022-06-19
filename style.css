@@ -1,0 +1,13 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#determinant {
+    margin-left: 1em;
+}
+
+.matrix-grid tr td input {
+    width: 4rem;
+    height: 1rem;
+    font-size: 1rem;
+}
